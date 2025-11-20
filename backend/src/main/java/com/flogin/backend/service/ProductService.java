@@ -56,10 +56,11 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
-        if(productRepository.existsById(id))
+        if (!productRepository.existsById(id)) {
             throw new NoSuchElementException("Product not found");
-        else
-            productRepository.deleteById(id);
+        }
+
+        productRepository.deleteById(id);
     }
 
     private ProductDTO mapToDto(Product product) {

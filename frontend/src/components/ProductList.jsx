@@ -22,7 +22,7 @@ export default function ProductList({ data, onCreate, onEdit, onDelete, onView }
             <tr key={p.id}>
               <td>{p.id}</td>
               <td>{p.name}</td>
-              <td>{p.qty}</td>
+              <td>{p.quantity}</td>
               <td>{p.price}</td>
               <td>{p.category}</td>
               <td>
