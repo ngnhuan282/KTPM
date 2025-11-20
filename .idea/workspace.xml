@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <list default="true" id="1dcddad7-d052-4eb1-98b7-adb641e8566f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+=======
+    <list default="true" id="1dcddad7-d052-4eb1-98b7-adb641e8566f" name="Changes" comment="" />
+>>>>>>> Stashed changes
 =======
     <list default="true" id="1dcddad7-d052-4eb1-98b7-adb641e8566f" name="Changes" comment="" />
 >>>>>>> Stashed changes
@@ -20,13 +24,19 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.BackendApplication.executor": "Run",
     "git-widget-placeholder": "test"
   }
 }]]></component>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   <component name="TaskManager">
     <servers />
