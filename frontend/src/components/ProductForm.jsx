@@ -1,14 +1,42 @@
 import React, { useState, useEffect } from "react";
 
+const emptyForm = {
+  id: null,
+  name: "",
+  quantity: "",
+  price: "",
+  description: "",
+  category: "",
+};
+
 export default function ProductForm({ product, onSave, onCancel }) {
-  const [form, setForm] = useState({ id: "", name: "", qty: "", price: "", category: "" });
+  const [form, setForm] = useState(emptyForm);
 
   useEffect(() => {
-    if (product) setForm(product);
+    if (product) {
+      // merge để tránh thiếu field description / quantity...
+      setForm({ ...emptyForm, ...product });
+    } else {
+      setForm(emptyForm);
+    }
   }, [product]);
 
   const change = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    const payload = {
+      ...form,
+      quantity:
+        form.quantity === "" || form.quantity == null
+          ? null
+          : Number(form.quantity),
+      price:
+        form.price === "" || form.price == null ? null : Number(form.price),
+    };
+    onSave(payload);
   };
 
   return (
@@ -17,22 +45,49 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
       <div>
         <label>Tên:</label>
-        <input name="name" value={form.name} onChange={change} />
+        <input
+          name="name"
+          value={form.name || ""}
+          onChange={change}
+        />
       </div>
 
       <div>
         <label>Số lượng:</label>
-        <input name="qty" value={form.qty} onChange={change} />
+        <input
+          name="quantity"
+          type="number"
+          value={form.quantity ?? ""}
+          onChange={change}
+        />
       </div>
 
       <div>
         <label>Giá:</label>
-        <input name="price" value={form.price} onChange={change} />
+        <input
+          name="price"
+          type="number"
+          value={form.price ?? ""}
+          onChange={change}
+        />
+      </div>
+
+      <div>
+        <label>Mô tả:</label>
+        <textarea
+          name="description"
+          value={form.description || ""}
+          onChange={change}
+        />
       </div>
 
       <div>
         <label>Danh mục:</label>
-        <select name="category" value={form.category} onChange={change}>
+        <select
+          name="category"
+          value={form.category || ""}
+          onChange={change}
+        >
           <option value="">--Chọn--</option>
           <option value="Coffee">Coffee</option>
           <option value="Tea">Tea</option>
@@ -40,7 +95,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
         </select>
       </div>
 
-      <button onClick={() => onSave(form)}>Lưu</button>
+      <button onClick={handleSubmit}>Lưu</button>
       <button onClick={onCancel}>Hủy</button>
     </div>
   );

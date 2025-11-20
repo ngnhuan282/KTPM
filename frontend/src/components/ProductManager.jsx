@@ -1,20 +1,21 @@
-// ===== ProductManager.jsx =====
 import React, { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import ProductForm from "./ProductForm";
 import ProductDetail from "./ProductDetail";
+import api from "../services/api";
 
 export default function ProductManager() {
   const [page, setPage] = useState("list");
   const [products, setProducts] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const API = "http://localhost:8080/api/products";
-
   const loadData = async () => {
-    const res = await fetch(API);
-    const data = await res.json();
-    setProducts(data);
+    try {
+      const res = await api.get("/api/products"); // GET http://localhost:8080/api/products
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Load products error:", err);
+    }
   };
 
   useEffect(() => {
@@ -37,18 +38,28 @@ export default function ProductManager() {
   };
 
   const handleSave = async (product) => {
-    await fetch(API, {
-      method: product.id ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
-    });
-    loadData();
-    setPage("list");
+    try {
+      if (product.id) {
+        // UPDATE: PUT /api/products/{id}
+        await api.put(`/api/products/${product.id}`, product);
+      } else {
+        // CREATE: POST /api/products
+        await api.post("/api/products", product);
+      }
+      await loadData();
+      setPage("list");
+    } catch (err) {
+      console.error("Save product error:", err);
+    }
   };
 
   const handleDelete = async (id) => {
-    await fetch(`${API}/${id}`, { method: "DELETE" });
-    loadData();
+    try {
+      await api.delete(`/api/products/${id}`);
+      await loadData();
+    } catch (err) {
+      console.error("Delete product error:", err);
+    }
   };
 
   return (
@@ -72,13 +83,8 @@ export default function ProductManager() {
       )}
 
       {page === "detail" && (
-        <ProductDetail
-          product={selected}
-          onBack={() => setPage("list")}
-        />
+        <ProductDetail product={selected} onBack={() => setPage("list")} />
       )}
     </>
   );
 }
-
-
