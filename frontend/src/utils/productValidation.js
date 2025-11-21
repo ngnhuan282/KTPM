@@ -1,0 +1,43 @@
+
+export const validateProduct = (product) => {
+    const errors = {};
+
+    const name = product.name ? product.name.trim() : "";
+    if(!name) {
+        errors.name = "Tên sản phẩm không được để trống";
+    } else if (name.length < 3 || name.length > 100) {
+        errors.name = "Tên sản phẩm phải từ 3 đến 100 ký tự";
+    }
+
+    const rawPrice = product.price;
+    if(rawPrice === null || rawPrice === "") {
+        errors.price = "Giá không được để trống";
+    }
+    else {
+        const price = Number(rawPrice);
+        if(Number.isNaN(price) || price <= 0) {
+            errors.price = "Giá phải lớn hơn 0";
+        }
+    }
+
+    const rawQuantity = product.quantity;
+    if(rawQuantity === null || rawQuantity === "") {
+        errors.quantity = "Số lượng không được để trống";
+    } else {
+        const quantity = Number(rawQuantity);
+        if(Number.isNaN(rawQuantity) || quantity < 0 || quantity > 99999) {
+            errors.quantity = "Số lượng phải từ 0 đến 99,999";
+        }
+    }
+
+    if(product.description && String(product.description).length > 500) {
+        errors.description = "Mô tả phải nhỏ hơn hoặc bằng 500 ký tự";
+    }
+
+    const category = product.category ? product.category.trim() : "";
+    if(!category) {
+        errors.category = "Loại sản phẩm không được để trống";
+    }
+
+    return errors;
+}
