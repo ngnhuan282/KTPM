@@ -6,12 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1dcddad7-d052-4eb1-98b7-adb641e8566f" name="Changes" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
 =======
       <change afterPath="$PROJECT_DIR$/frontend/src/tests/productValidation.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProductForm.jsx" afterDir="false" />
 >>>>>>> 43d843a (Cai thu vien Jest de testing)
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/tests/productValidation.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/tests/productValidation.test.js" afterDir="false" />
+>>>>>>> 787ed29 (Cài thư viện Jest)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +107,7 @@
       <option name="presentableId" value="Default" />
       <updated>1763744710932</updated>
       <workItem from="1763752943933" duration="1463000" />
-      <workItem from="1763908752980" duration="423000" />
+      <workItem from="1763908752980" duration="539000" />
     </task>
 >>>>>>> 43d843a (Cai thu vien Jest de testing)
     <servers />
