@@ -6,9 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="1dcddad7-d052-4eb1-98b7-adb641e8566f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProductForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProductList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductManager.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ProductManager.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/clover.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/clover.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/coverage-final.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/coverage-final.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/block-navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/block-navigation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/components/ProductForm.jsx.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/components/ProductForm.jsx.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/components/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/components/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/prettify.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/prettify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/sorter.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/sorter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/utils/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/utils/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov-report/utils/productValidation.js.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov-report/utils/productValidation.js.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/coverage/lcov.info" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/coverage/lcov.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/tests/productValidation.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/tests/productValidation.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +109,7 @@
       <workItem from="1763752943933" duration="1463000" />
       <workItem from="1763908752980" duration="539000" />
       <workItem from="1764167866098" duration="1559000" />
-      <workItem from="1764427550204" duration="4897000" />
+      <workItem from="1764427550204" duration="6839000" />
     </task>
     <servers />
   </component>
