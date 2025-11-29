@@ -32,7 +32,7 @@ public class ProductServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        
+
         product = Product.builder()
                 .id(1L)
                 .name("Laptop Dell XPS 13")
