@@ -17,17 +17,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        // Luôn set CORS header cho mọi response
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
+        // BỎ QUA preflight OPTIONS (không đòi JWT)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
 
         String path = request.getServletPath();
 
-        // Bỏ qua login (không cần JWT)
+        // Không check JWT cho auth endpoints
         if (path.startsWith("/api/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Các path còn lại (vd /api/products/**) thì check JWT:
+        // các API khác (vd: /api/products/**) cần JWT
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -44,10 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // (tuỳ chọn) có thể lấy username từ token:
-        // String username = jwtUtil.getUsernameFromToken(token);
-        // và set attribute nếu cần request.setAttribute("username", username);
-
+        // Token hợp lệ → cho đi tiếp
         filterChain.doFilter(request, response);
     }
 }
