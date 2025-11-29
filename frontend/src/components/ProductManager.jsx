@@ -8,7 +8,6 @@ export default function ProductManager() {
     const [page, setPage] = useState("list");
     const [products, setProducts] = useState([]);
     const [selected, setSelected] = useState(null);
-    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
     const loadData = async () => {
@@ -18,7 +17,6 @@ export default function ProductManager() {
         } catch (err) {
             console.error("Load products error:", err);
             setError("Không thể tải danh sách sản phẩm. Vui lòng thử lại.");
-            setMessage("");
         }
     };
 
@@ -28,7 +26,6 @@ export default function ProductManager() {
 
     const showErrorFromApi = (err) => {
         console.error("API error:", err);
-
         const apiMessage = err?.response?.data;
 
         if (typeof apiMessage === "string" && apiMessage.trim() !== "") {
@@ -37,51 +34,52 @@ export default function ProductManager() {
         } else {
             setError("Đã xảy ra lỗi. Vui lòng thử lại.");
         }
-
-        setMessage("");
     };
 
     const handleCreate = () => {
         setSelected(null);
+        setError("");
         setPage("form");
     };
 
     const handleEdit = (item) => {
         setSelected(item);
+        setError("");
         setPage("form");
     };
 
     const handleView = (item) => {
         setSelected(item);
+        setError("");
         setPage("detail");
     };
 
     const handleSave = async (product) => {
         try {
             setError("");
-            setMessage("");
 
             if (product.id == null) {
                 // Tạo mới
                 await api.post("/api/products", product);
-                setMessage("Thêm sản phẩm thành công");
+                window.alert("Thêm sản phẩm thành công");
             } else {
                 // Cập nhật
                 await api.put(`/api/products/${product.id}`, product);
-                setMessage("Cập nhật sản phẩm thành công");
+                window.alert("Cập nhật sản phẩm thành công");
             }
 
             await loadData();
             setPage("list");
         } catch (err) {
-            showErrorFromApi(err); // Hiển thị "Tên sản phẩm đã tồn tại" / "Loại sản phẩm không hợp lệ"...
+            // Hiển thị "Tên sản phẩm đã tồn tại" / "Loại sản phẩm không hợp lệ" / ...
+            showErrorFromApi(err);
         }
     };
 
     const handleDelete = async (id) => {
         // Dialog xác nhận YES/NO
         const confirmed = window.confirm(
-            "Bạn có chắc muốn xóa sản phẩm này không?"
+            "Bạn có chắc chắn muốn xóa sản phẩm này không?"
         );
         if (!confirmed) {
             return; // Người dùng chọn Hủy
@@ -89,22 +87,29 @@ export default function ProductManager() {
 
         try {
             setError("");
-            setMessage("");
 
             await api.delete(`/api/products/${id}`);
 
             await loadData();
-            setMessage("Xóa sản phẩm thành công");
+            window.alert("Xóa sản phẩm thành công");
         } catch (err) {
-            // Nếu BE trả "Sản phẩm không tồn tại" thì sẽ hiển thị đúng message đó
             showErrorFromApi(err);
         }
     };
 
+    const handleCancel = () => {
+        setError("");
+        setPage("list");
+    };
+
+    const handleBack = () => {
+        setError("");
+        setPage("list");
+    };
+
     return (
         <div>
-            {/* Thông báo chung */}
-            {message && <p style={{ color: "green" }}>{message}</p>}
+            {/* Thông báo lỗi chung */}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             {page === "list" && (
@@ -121,12 +126,12 @@ export default function ProductManager() {
                 <ProductForm
                     product={selected}
                     onSave={handleSave}
-                    onCancel={() => setPage("list")}
+                    onCancel={handleCancel}
                 />
             )}
 
             {page === "detail" && (
-                <ProductDetail product={selected} onBack={() => setPage("list")} />
+                <ProductDetail product={selected} onBack={handleBack} />
             )}
         </div>
     );

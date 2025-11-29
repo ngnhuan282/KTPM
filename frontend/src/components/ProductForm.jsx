@@ -16,15 +16,29 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
     useEffect(() => {
         if (product) {
-            setForm({ ...emptyForm, ...product });
+            setForm({
+                ...emptyForm,
+                ...product,
+                quantity:
+                    product.quantity === null || product.quantity === undefined
+                        ? ""
+                        : product.quantity,
+                price:
+                    product.price === null || product.price === undefined
+                        ? ""
+                        : product.price,
+            });
         } else {
             setForm(emptyForm);
         }
     }, [product]);
 
-    const change = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = () => {
@@ -38,11 +52,13 @@ export default function ProductForm({ product, onSave, onCancel }) {
         const payload = {
             ...form,
             quantity:
-                form.quantity === "" || form.quantity == null
+                form.quantity === "" || form.quantity === null
                     ? null
                     : Number(form.quantity),
             price:
-                form.price === "" || form.price == null ? null : Number(form.price),
+                form.price === "" || form.price === null
+                    ? null
+                    : Number(form.price),
         };
 
         onSave(payload);
@@ -50,7 +66,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
     return (
         <div>
-            <h2>{product ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h2>
+            <h2>{form.id == null ? "Thêm sản phẩm" : "Sửa sản phẩm"}</h2>
 
             <div>
                 <label htmlFor="name">Tên:</label>
@@ -58,7 +74,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
                     id="name"
                     name="name"
                     value={form.name || ""}
-                    onChange={change}
+                    onChange={handleChange}
                 />
                 {errors.name && <p role="alert">{errors.name}</p>}
             </div>
@@ -70,7 +86,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
                     name="quantity"
                     type="number"
                     value={form.quantity ?? ""}
-                    onChange={change}
+                    onChange={handleChange}
                 />
                 {errors.quantity && <p role="alert">{errors.quantity}</p>}
             </div>
@@ -82,7 +98,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
                     name="price"
                     type="number"
                     value={form.price ?? ""}
-                    onChange={change}
+                    onChange={handleChange}
                 />
                 {errors.price && <p role="alert">{errors.price}</p>}
             </div>
@@ -93,7 +109,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
                     id="description"
                     name="description"
                     value={form.description || ""}
-                    onChange={change}
+                    onChange={handleChange}
                 />
                 {errors.description && <p role="alert">{errors.description}</p>}
             </div>
@@ -104,7 +120,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
                     id="category"
                     name="category"
                     value={form.category || ""}
-                    onChange={change}
+                    onChange={handleChange}
                 >
                     <option value="">--Chọn--</option>
                     <option value="Ultrabook">Ultrabook</option>
@@ -115,8 +131,12 @@ export default function ProductForm({ product, onSave, onCancel }) {
                 {errors.category && <p role="alert">{errors.category}</p>}
             </div>
 
-            <button onClick={handleSubmit}>Lưu</button>
-            <button onClick={onCancel}>Hủy</button>
+            <button type="button" onClick={handleSubmit}>
+                Lưu
+            </button>
+            <button type="button" onClick={onCancel}>
+                Hủy
+            </button>
         </div>
     );
 }
