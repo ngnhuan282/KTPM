@@ -1,5 +1,7 @@
 package com.flogin.backend.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.flogin.backend.dto.ProductDTO;
 import com.flogin.backend.entity.CategoryType;
 import com.flogin.backend.entity.Product;
@@ -22,6 +24,11 @@ public class ProductService {
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ProductDTO> getProducts(Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(this::mapToDto);
     }
 
     public ProductDTO getProduct(Long id) {
