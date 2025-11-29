@@ -10,13 +10,18 @@ export const validateProduct = (product) => {
     }
 
     const rawPrice = product.price;
-    if(rawPrice === null || rawPrice === "") {
+    const MAX_PRICE = 999999999;
+    if (rawPrice === null || rawPrice === "") {
         errors.price = "Giá không được để trống";
-    }
-    else {
+    } else {
         const price = Number(rawPrice);
-        if(Number.isNaN(price) || price <= 0) {
+
+        if (Number.isNaN(price)) {
+            errors.price = "Giá phải là số hợp lệ";
+        } else if (price <= 0) {
             errors.price = "Giá phải lớn hơn 0";
+        } else if (price > MAX_PRICE) {
+            errors.price = "Giá phải nhỏ hơn hoặc bằng 999,999,999";
         }
     }
 

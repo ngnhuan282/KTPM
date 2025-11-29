@@ -26,13 +26,13 @@ public class ProductService {
 
     public ProductDTO getProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Product not found"));
+                .orElseThrow(() -> new NoSuchElementException("Sản phẩm không tồn tại"));
         return mapToDto(product);
     }
 
     public ProductDTO createProduct(ProductDTO dto) {
         if(productRepository.existsByName(dto.getName()))
-            throw new IllegalArgumentException("Product name already exists");
+            throw new IllegalArgumentException("Tên sản phẩm đã tồn tại");
 
         Product product = mapToEntity(dto);
         product.setId(null);
@@ -42,9 +42,9 @@ public class ProductService {
 
     public ProductDTO updateProduct(Long id, ProductDTO dto) {
         Product existing = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Product not found"));
+                .orElseThrow(() -> new NoSuchElementException("Sản phẩm không tồn tại"));
         if(productRepository.existsByNameAndIdNot(dto.getName(), id))
-            throw new IllegalArgumentException("Product name already exists");
+            throw new IllegalArgumentException("Tên sản phẩm đã tồn tại");
 
         existing.setName(dto.getName());
         existing.setQuantity(dto.getQuantity());
@@ -62,7 +62,7 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
-            throw new NoSuchElementException("Product not found");
+            throw new NoSuchElementException("Sản phẩm không tồn tại");
         }
 
         productRepository.deleteById(id);

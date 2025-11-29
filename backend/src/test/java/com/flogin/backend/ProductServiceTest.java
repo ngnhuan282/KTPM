@@ -115,7 +115,7 @@ public class ProductServiceTest {
                 IllegalArgumentException.class,
                 () -> productService.createProduct(productDto)
         );
-        assertEquals("Product name already exists", ex.getMessage());
+        assertEquals("Tên sản phẩm đã tồn tại", ex.getMessage());
         verify(productRepository, times(1)).existsByName("Laptop Dell XPS 13");
         verify(productRepository, never()).save(any(Product.class));
     }
@@ -138,7 +138,7 @@ public class ProductServiceTest {
                 IllegalArgumentException.class,
                 () -> productService.createProduct(invalidCategoryDto)
         );
-        assertEquals("Invalid category", ex.getMessage());
+        assertEquals("Danh mục không hợp lệ", ex.getMessage());
         verify(productRepository, times(1)).existsByName("Laptop Fake");
         verify(productRepository, never()).save(any(Product.class));
     }
@@ -193,7 +193,7 @@ public class ProductServiceTest {
                 IllegalArgumentException.class,
                 () -> productService.updateProduct(1L, productDto)
         );
-        assertEquals("Product name already exists", ex.getMessage());
+        assertEquals("Tên sản phẩm đã tồn tại", ex.getMessage());
         verify(productRepository, times(1)).findById(1L);
         verify(productRepository, times(1))
                 .existsByNameAndIdNot("Laptop Dell XPS 13", 1L);

@@ -65,7 +65,22 @@ describe("Validate Product", () => {
         expect(errors.price).toBe("Giá phải lớn hơn 0");
     });
 
-    it("TC6: Quantity rỗng -> báo lỗi quantity", () => {
+    it("TC6: Price > 999,999,999 -> báo lỗi price", () => {
+        const product = {
+            name: "Laptop ABC",
+            price: 1000000000, // 1 tỷ > 999,999,999
+            quantity: 10,
+            description: "Mô tả hợp lệ",
+            category: "Ultrabook",
+        };
+
+        const errors = validateProduct(product);
+
+        expect(errors.price).toBe("Giá phải nhỏ hơn hoặc bằng 999,999,999");
+    });
+
+
+    it("TC7: Quantity rỗng -> báo lỗi quantity", () => {
         const product = {
             ...baseProduct,
             quantity: "",
@@ -76,7 +91,7 @@ describe("Validate Product", () => {
         expect(errors.quantity).toBe("Số lượng không được để trống");
     });
 
-    it("TC7: Quantity < 0 -> báo lỗi quantity", () => {
+    it("TC8: Quantity < 0 -> báo lỗi quantity", () => {
         const product = {
             ...baseProduct,
             quantity: -1,
@@ -86,7 +101,7 @@ describe("Validate Product", () => {
         expect(errors.quantity).toBe("Số lượng phải từ 0 đến 99,999");
     });
 
-    it("TC8: Quantity > 99999 -> báo lỗi quantity", () => {
+    it("TC9: Quantity > 99999 -> báo lỗi quantity", () => {
         const product = {
             ...baseProduct,
             quantity: 100000,
@@ -97,7 +112,7 @@ describe("Validate Product", () => {
         expect(errors.quantity).toBe("Số lượng phải từ 0 đến 99,999");
     });
 
-    it("TC9: Description > 500 ký tự -> báo lỗi description", () => {
+    it("TC10: Description > 500 ký tự -> báo lỗi description", () => {
         const longDescription = "a".repeat(501);
         const product = {
             ...baseProduct,
@@ -109,7 +124,7 @@ describe("Validate Product", () => {
         expect(errors.description).toBe("Mô tả phải nhỏ hơn hoặc bằng 500 ký tự");
     });
 
-    it("TC10: Category rỗng -> báo lỗi category", () => {
+    it("TC11: Category rỗng -> báo lỗi category", () => {
         const product = {
             ...baseProduct,
             category: "",
@@ -120,7 +135,7 @@ describe("Validate Product", () => {
         expect(errors.category).toBe("Danh mục không được để trống");
     });
 
-    it("TC11: Dữ liệu hợp lệ -> không báo lỗi", () => {
+    it("TC12: Dữ liệu hợp lệ -> không báo lỗi", () => {
         const errors = validateProduct(baseProduct);
 
         expect(Object.keys(errors).length).toBe(0);

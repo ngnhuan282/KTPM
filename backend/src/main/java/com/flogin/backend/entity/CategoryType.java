@@ -22,6 +22,6 @@ public enum CategoryType {
                 return c;
             }
         }
-        throw new IllegalArgumentException("Invalid category");
+        throw new IllegalArgumentException("Danh mục không hợp lệ");
     }
 }
