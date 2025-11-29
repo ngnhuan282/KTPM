@@ -1,6 +1,7 @@
 package com.flogin.backend.service;
 
 import com.flogin.backend.dto.ProductDTO;
+import com.flogin.backend.entity.CategoryType;
 import com.flogin.backend.entity.Product;
 import com.flogin.backend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,11 @@ public class ProductService {
         existing.setQuantity(dto.getQuantity());
         existing.setPrice(dto.getPrice());
         existing.setDescription(dto.getDescription());
-        existing.setCategory(dto.getCategory());
+        existing.setCategory(
+                dto.getCategory() == null
+                        ? null
+                        : CategoryType.fromDisplayName(dto.getCategory())
+        );
 
         Product saved = productRepository.save(existing);
         return mapToDto(saved);
@@ -73,7 +78,11 @@ public class ProductService {
         dto.setQuantity(product.getQuantity());
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());
-        dto.setCategory(product.getCategory());
+        dto.setCategory(
+                product.getCategory() != null
+                        ? product.getCategory().getDisplayName()
+                        : null
+        );
 
         return dto;
     }
@@ -88,7 +97,7 @@ public class ProductService {
                 .quantity(dto.getQuantity())
                 .price(dto.getPrice())
                 .description(dto.getDescription())
-                .category(dto.getCategory())
+                .category(CategoryType.fromDisplayName(dto.getCategory()))
                 .build();
     }
 
