@@ -1,43 +1,83 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import api from "../services/api";
+import { validateUsername, validatePassword } from "../tests/LoginValidation";
+import api from "../services/api"; // chỉnh lại path nếu file bạn đặt khác
 
 const LoginForm = () => {
-    const [username, setUsername] = useState("");   // 🔁 từ email -> username
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [serverError, setServerError] = useState("");
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+
+        setServerError("");
+
+        // --- validate username ---
+        const uError = validateUsername(username);
+        if (uError) {
+            setUsernameError(uError);
+            return;
+        } else {
+            setUsernameError("");
+        }
+
+        // --- validate password ---
+        const pError = validatePassword(password);
+        if (pError) {
+            setPasswordError(pError);
+            return;
+        } else {
+            setPasswordError("");
+        }
 
         try {
-            // Gửi username + password lên backend
-            const res = await api.post("/api/auth/login", {
-                username,
-                password,
-            });
-
+            // Gọi backend: /auth/login
+            const res = await api.post("/auth/login", { username, password });
             const data = res.data;
-            console.log("Login response:", data);
 
-            if (!data.success) {
-                // backend trả success=false
-                setError(data.message || "Đăng nhập thất bại!");
+            console.log("Login response data:", data);
+
+            // data phải có dạng { success, message, username, token }
+            if (!data || data.success !== true) {
+                setServerError(data?.message || "Đăng nhập thất bại!");
                 return;
             }
 
-            // ✅ Lưu token + username vào localStorage
+            // lưu token + username
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.username);
 
-            alert("Đăng nhập thành công!");
+            alert(data.message || "Đăng nhập thành công!");
             navigate("/products");
         } catch (err) {
             console.error("Login error:", err);
-            setError("Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.");
+
+            if (err.response) {
+                // lỗi từ server (400/401,...)
+                const respData = err.response.data;
+                if (err.response.status === 401 && respData === "Invalid or expired token") {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                }
+
+                if (typeof respData === "string") {
+                    setServerError(respData);
+                } else if (respData && respData.message) {
+                    setServerError(respData.message);
+                } else {
+                    setServerError("Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.");
+                }
+            } else {
+                // lỗi network / axios
+                setServerError(err.message || "Có lỗi xảy ra, vui lòng thử lại.");
+            }
         }
     };
 
@@ -45,7 +85,8 @@ const LoginForm = () => {
         <div className="page-container">
             <form onSubmit={handleSubmit} className="loginForm">
                 <h1 className="title">LOGIN</h1>
-                {error && <p className="error">{error}</p>}
+
+                {serverError && <p className="error">{serverError}</p>}
 
                 <div>
                     <label htmlFor="username">Username:</label>
@@ -55,9 +96,9 @@ const LoginForm = () => {
                         placeholder="Nhập username..."
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        required
                     />
                 </div>
+                {usernameError && <p className="error">{usernameError}</p>}
 
                 <div>
                     <label htmlFor="password">Mật khẩu:</label>
@@ -67,9 +108,9 @@ const LoginForm = () => {
                         placeholder="Nhập mật khẩu..."
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
                 </div>
+                {passwordError && <p className="error">{passwordError}</p>}
 
                 <button type="submit">Đăng nhập</button>
 

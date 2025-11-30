@@ -15,8 +15,8 @@ public class PasswordEncoderRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String raw = "123";
+        String raw = "123456a";
         String hash = passwordEncoder.encode(raw);
-        System.out.println("BCrypt for '123' = " + hash);
+        System.out.println("BCrypt for '123456a' = " + hash);
     }
 }

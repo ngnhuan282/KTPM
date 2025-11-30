@@ -7,6 +7,10 @@ const api = axios.create({
 
 // Tự động gắn JWT vào mọi request (nếu đã login)
 api.interceptors.request.use((config) => {
+    if (config.url && config.url.startsWith("/auth")) {
+        return config;
+    }
+
     const token = localStorage.getItem("token");
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
